@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Travel Request | TPA</title>
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Travel Request</h1>
+    <p class="sub">Submit a new travel request. Details will be validated via Bodhi workflow.</p>
+  </header>
+
+  <main>
+    <form id="travelForm" novalidate>
+      <section class="grid">
+        <div class="field">
+          <label for="employeeName">Employee Name</label>
+          <input id="employeeName" name="employeeName" type="text" required placeholder="e.g., Praburam C" />
+        </div>
+
+        <div class="field">
+          <label for="employeeEmail">Employee Email</label>
+          <input id="employeeEmail" name="employeeEmail" type="email" required placeholder="e.g., praburam@your-company.com" />
+        </div>
+
+        <div class="field">
+          <label for="destination">Destination (City, Country)</label>
+          <input id="destination" name="destination" type="text" required placeholder="e.g., Bengaluru, India" />
+        </div>
+
+        <div class="field">
+          <label for="depart">Departure Date</label>
+          <input id="depart" name="depart" type="date" required />
+        </div>
+
+        <div class="field">
+          <label for="return">Return Date</label>
+          <input id="return" name="return" type="date" required />
+        </div>
+
+        <div class="field">
+          <label for="costCenter">Cost Center / Project Code</label>
+          <input id="costCenter" name="costCenter" type="text" placeholder="e.g., CC-1342 / PRJ-TPA" />
+        </div>
+
+        <div class="field">
+          <label for="approverEmail">Approver Email</label>
+          <input id="approverEmail" name="approverEmail" type="email" placeholder="e.g., manager@your-company.com" />
+        </div>
+
+        <div class="field">
+          <label for="purpose">Purpose of Travel</label>
+          <textarea id="purpose" name="purpose" rows="3" required placeholder="Client workshop / Data center visit / Hackathon..."></textarea>
+        </div>
+
+        <div class="field full">
+          <label for="prompt">Additional Prompt (for Bodhi / AMEX suggestions)</label>
+          <textarea id="prompt" name="prompt" rows="4"
+            placeholder="Any preferences or constraints? e.g., 'Morning flights only, near client office, prefer Marriott; cap budget ₹15k/night.'"></textarea>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button id="submitBtn" type="submit">Submit Request</button>
+        <button id="resetBtn" type="reset" class="secondary">Reset</button>
+      </div>
+
+      <div id="result" class="result" aria-live="polite"></div>
+    </form>
+  </main>
+
+  <footer>
+    <small>© 2026 TPA • Azure Static Web App + Functions • Bodhi AI Studio integration</small>
+  </footer>
+
+  <script src="./assets/app.js"></script>
+</body>
+</html>
