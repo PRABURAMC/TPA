@@ -1,24 +1,28 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Travel Automation – Prompt</title>
-  <link rel="stylesheet" href="./styles.css"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel Assistant</title>
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="container">
-    <h1>Travel Automation</h1>
-    <p class="muted">Enter your prompt. Example: “Need to travel from Chennai to Gurgaon next Tue–Thu, non-stop flights only, hotel near DLF CyberHub.”</p>
+    <main class="container">
+        <h1>Travel Request Assistant</h1>
 
-    <form id="promptForm">
-      <label for="prompt">Prompt</label>
-      <textarea id="prompt" name="prompt" rows="7" required placeholder="Type your travel prompt..."></textarea>
-      <button type="submit" id="submitBtn">Submit</button>
-      <p id="status" role="status" aria-live="polite"></p>
-    </form>
-  </main>
+        <form id="promptForm">
+            <label for="prompt">Enter your travel request prompt:</label>
+            <textarea id="prompt" name="prompt" rows="6" placeholder="Example: Need to fly from Chennai to Bangalore on Monday morning and require a hotel near MG Road"></textarea>
 
-  <script src="./script.js"></script>
+            <button type="submit">Submit</button>
+        </form>
+
+        <div id="resultBox">
+            <h2>Response</h2>
+            <pre id="responseOutput">Waiting for input...</pre>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
 </body>
 </html>
