@@ -28,3 +28,4 @@ document.getElementById("promptForm").addEventListener("submit", async (event) =
         outputBox.textContent = "❌ Error: " + err.message;
     }
 });
+
