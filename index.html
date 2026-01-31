@@ -1,81 +1,55 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <title>Prompt → Bodhi (Test)</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Travel Request | TPA</title>
-  <link rel="stylesheet" href="./assets/styles.css" />
+  <style>
+    body{font-family:system-ui,Segoe UI,Arial,sans-serif;margin:2rem;max-width:720px}
+    h1{font-size:1.25rem;margin-bottom:.5rem}
+    textarea{width:100%;min-height:140px;padding:.75rem;font:inherit}
+    button{margin-top:.75rem;padding:.6rem 1rem;font-weight:600;background:#2563eb;color:#fff;border:0;border-radius:6px;cursor:pointer}
+    .out{margin-top:1rem;padding:.75rem;border:1px solid #cbd5e1;border-radius:6px;white-space:pre-wrap}
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Travel Request</h1>
-    <p class="sub">Submit a new travel request. Details will be validated via Bodhi workflow.</p>
-  </header>
+  <h1>Send a prompt to Bodhi (via Azure Function)</h1>
 
-  <main>
-    <form id="travelForm" novalidate>
-      <section class="grid">
-        <div class="field">
-          <label for="employeeName">Employee Name</label>
-          <input id="employeeName" name="employeeName" type="text" required placeholder="e.g., Praburam C" />
-        </div>
+  <label for="prompt">Prompt</label>
+  <textarea id="prompt" placeholder="Type your prompt for Bodhi here..."></textarea>
+  <button id="sendBtn">Send</button>
 
-        <div class="field">
-          <label for="employeeEmail">Employee Email</label>
-          <input id="employeeEmail" name="employeeEmail" type="email" required placeholder="e.g., praburam@your-company.com" />
-        </div>
+  <div class="out" id="out" aria-live="polite"></div>
 
-        <div class="field">
-          <label for="destination">Destination (City, Country)</label>
-          <input id="destination" name="destination" type="text" required placeholder="e.g., Bengaluru, India" />
-        </div>
+<script>
+  // 🔁 Replace with your Function App base URL
+  // Example: https://tpa-travel-func.azurewebsites.net
+  const API_BASE = "https://<YOUR-FUNCTION-APP>.azurewebsites.net";
 
-        <div class="field">
-          <label for="depart">Departure Date</label>
-          <input id="depart" name="depart" type="date" required />
-        </div>
+  const out = document.getElementById('out');
+  const btn = document.getElementById('sendBtn');
 
-        <div class="field">
-          <label for="return">Return Date</label>
-          <input id="return" name="return" type="date" required />
-        </div>
+  btn.addEventListener('click', async () => {
+    const prompt = document.getElementById('prompt').value.trim();
+    if (!prompt) { out.textContent = 'Please enter a prompt.'; return; }
 
-        <div class="field">
-          <label for="costCenter">Cost Center / Project Code</label>
-          <input id="costCenter" name="costCenter" type="text" placeholder="e.g., CC-1342 / PRJ-TPA" />
-        </div>
+    out.textContent = 'Sending...';
+    btn.disabled = true;
 
-        <div class="field">
-          <label for="approverEmail">Approver Email</label>
-          <input id="approverEmail" name="approverEmail" type="email" placeholder="e.g., manager@your-company.com" />
-        </div>
-
-        <div class="field">
-          <label for="purpose">Purpose of Travel</label>
-          <textarea id="purpose" name="purpose" rows="3" required placeholder="Client workshop / Data center visit / Hackathon..."></textarea>
-        </div>
-
-        <div class="field full">
-          <label for="prompt">Additional Prompt (for Bodhi / AMEX suggestions)</label>
-          <textarea id="prompt" name="prompt" rows="4"
-            placeholder="Any preferences or constraints? e.g., 'Morning flights only, near client office, prefer Marriott; cap budget ₹15k/night.'"></textarea>
-        </div>
-      </section>
-
-      <div class="actions">
-        <button id="submitBtn" type="submit">Submit Request</button>
-        <button id="resetBtn" type="reset" class="secondary">Reset</button>
-      </div>
-
-      <div id="result" class="result" aria-live="polite"></div>
-    </form>
-  </main>
-
-  <footer>
-    <small>© 2026 TPA • Azure Static Web App + Functions • Bodhi AI Studio integration</small>
-  </footer>
-
-  <script src="./assets/app.js"></script>
+    try {
+      const res = await fetch(`${API_BASE}/api/submit-prompt-to-bodhi`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+      const text = await res.text();
+      out.textContent = (res.ok ? '✅ Success: ' : '❌ Error: ') + text;
+    } catch (e) {
+      out.textContent = '❌ Network error: ' + e.message;
+    } finally {
+      btn.disabled = false;
+    }
+  });
+</script>
 </body>
 </html>
